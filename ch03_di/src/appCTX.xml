@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+															<!-- 패키지 내부에있는 경로는 "classpath:~~~" 패키지 외부 폴더 "appCTX.xml"로  -->
+	<bean id="aa" class="com.java.di01.AA" >
+	<property name="x">				<!-- 내부적으로는 setX와 같음 -->
+		<value>10</value>
+	</property> 
+	<property name="y" value="20" />	
+	</bean>
+	
+	<bean id="a" class="com.java.di03.AA">
+		<constructor-arg value="10" />
+		<constructor-arg value="20" />
+	</bean>
+	
+	<bean id="b" class="com.java.di03.BB">
+		<property name="a" value="77" />
+		<property name="b" value="88" />
+	 </bean>	
+	
+	<bean id="c" class="com.java.di03.CC">
+		<constructor-arg ref="a" />						<!-- 객체가 넘어가는것은 ref -->
+		<property name="bb" ref="b" />
+	
+	</bean>
+</beans>

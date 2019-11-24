@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	<!-- 핵심클래스 -->	
+	<bean id="student" class="com.java.aop04.Student"></bean>
+	<bean id="teacher" class="com.java.aop04.Teacher"></bean>
+	<!-- 공통클래스 -->
+	<bean id="pAsepect" class="com.java.aop04.PAsepect"></bean>
+	
+	<!-- AOP -->
+	<aop:config>
+	<aop:aspect ref="pAsepect">
+		<aop:pointcut expression="execution(* com.java.aop04.*.work())" id="pMethod"/>
+		<aop:before method="before" pointcut-ref="pMethod"/>      
+		
+		<aop:after-returning method="course" pointcut-ref="pMethod"/> <!-- 정상종료 -->
+		<aop:after-throwing method="out" pointcut-ref="pMethod" throwing="ex"/> <!-- 예외발생 -->
+		<aop:after method="after" pointcut-ref="pMethod"/>
+	
+	</aop:aspect>
+	</aop:config>
+	<!-- 
+		aop:aspect: 공통기능? 반대?
+		aop:pointcut:핵심기능?
+	
+		Advice 종류 
+		aop:before : 핵심하수 전에 Advice 실행
+		aop:after :  핵심하수 후에 Advice 실행
+		aop:after-returning : 정상종료
+		aop:after-throwing :  에러
+	-->	
+</beans>

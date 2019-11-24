@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+	<!-- mybatis ( factory builder , factory session ) / factory.build - sqlsessionfactory 
+		- session 순서 -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName"
+			value="oracle.jdbc.driver.OracleDriver" />
+
+		<property name="url"
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+
+		<property name="username" value="mvc" />
+
+		<property name="password" value="1234" />
+	</bean>
+
+
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations"
+			value="classpath:com/java/mapper/FriendMapper.xml">
+		</property>
+	</bean>
+
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+	<!-- aop -->
+	<bean id="myAspect" class="com.java.aop.MyAspect" />
+
+	<aop:config>
+		<aop:aspect ref="myAspect">
+			<aop:pointcut expression="within(com.java..*)"
+				id="publicMethod" /> 	<!-- 모든 하위폴더 적용 -->
+
+			<aop:around method="advice" pointcut-ref="publicMethod" />
+		</aop:aspect>
+	</aop:config>
+
+
+	<!-- dto -->
+	<bean id="friendDto" class="com.java.dto.FriendDto">
+	</bean>
+
+	<!-- dao -->
+	<bean id="friendDaoImp" class="com.java.dao.FriendDaoImp">
+		<property name="sqlSessionTemplate" ref="sqlSession"></property>
+	</bean>
+
+	<!-- ui -->
+	<bean id="friendUiImp" class="com.java.ui.FriendUiImp" >
+		<property name="friendDto" ref="FriendDto"></property>
+		<property name="friendDao" ref="FriendUiImp"></property>
+	</bean>
+	
+	
+
+
+
+
+</beans>

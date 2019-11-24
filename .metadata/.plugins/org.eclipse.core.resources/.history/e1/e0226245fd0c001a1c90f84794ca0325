@@ -1,0 +1,41 @@
+package com.java.dao;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+import com.java.dto.FriendDto;
+
+public class FriendDaoImp implements FriendDao {
+	//확장 가능성이 있으면 interface기반으로 
+	
+	private SqlSessionTemplate sqlSessionTemplate ;
+
+	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
+		this.sqlSessionTemplate = sqlSessionTemplate;
+	}
+
+	public FriendDaoImp(SqlSessionTemplate sqlSessionTemplate) {
+
+		this.sqlSessionTemplate = sqlSessionTemplate;	//SqlSessionFactory, Session
+	}
+	
+	public FriendDaoImp() {}
+
+	@Override
+	public String toString() {
+		return "FriendDaoImp [sqlSessionTemplate=" + sqlSessionTemplate + "]";
+	}
+
+	@Override
+	public int insert(FriendDto friendDto) {
+		// TODO Auto-generated method stub
+		int check=0;
+		
+		check=sqlSessionTemplate.insert("friendInsert",friendDto);
+		
+		
+		
+		return cheeck;
+	}
+	
+	
+}
