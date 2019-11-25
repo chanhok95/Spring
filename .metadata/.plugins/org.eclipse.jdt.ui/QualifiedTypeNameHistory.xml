@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.omg.CORBA.PRIVATE_MEMBER"/>
+<fullyQualifiedTypeName name="com.java.aop.MyAspect"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="com.java.dao.FriendDao"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
 <fullyQualifiedTypeName name="com.java.dto.FriendDto"/>
+<fullyQualifiedTypeName name="org.springframework.http.HttpRequest"/>
+<fullyQualifiedTypeName name="com.java.board.service.BoardService"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.view.InternalResourceView"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.View"/>
+<fullyQualifiedTypeName name="java.util.Map"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+<fullyQualifiedTypeName name="org.aspectj.lang.ProceedingJoinPoint"/>
+<fullyQualifiedTypeName name="java.lang.Throwable"/>
+<fullyQualifiedTypeName name="java.util.logging.Logger"/>
+<fullyQualifiedTypeName name="com.java.aop.LogAspect"/>
+<fullyQualifiedTypeName name="org.mybatis.spring.SqlSessionTemplate"/>
+<fullyQualifiedTypeName name="com.java.board.dao.BoardDao"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.java.board.dto.BoardDto"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="org.springframework.web.servlet.mvc.multiaction.MultiActionController"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletRequest"/>
+<fullyQualifiedTypeName name="javax.servlet.http.HttpServletResponse"/>
+<fullyQualifiedTypeName name="java.lang.VirtualMachineError"/>
 </qualifiedTypeNameHistroy>

@@ -11,4 +11,25 @@
 		  	</insert>
   		
   
+  			<select id="friendList" resultType="com.java.dto.FriendDto">
+  					select * from friend
+  			
+  			</select>
+  			
+  			
+  			<select id="friendSelect" parameterType="int" resultType="com.java.dto.FriendDto">
+  				select * from friend where num=#{num}
+  				
+  			
+  			</select>
+  			
+  			<delete id="friendDelete" parameterType="com.java.dto.FriendDto">
+  				delete from friend where num =#{num}
+  			
+  			</delete>
+  			
+  			<update id="friendUpdate" parameterType="com.java.dto.FriendDto">
+  				update friend set name=#{name},phone=#{phone} where
+						 num=#{num}
+  			</update>
 	</mapper>
