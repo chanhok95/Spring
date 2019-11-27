@@ -2,6 +2,7 @@ package com.java.board.service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,7 +64,7 @@ public class BoardServiceImp implements BoardService {
 				request.setAttribute("sequenceNumber", sequenceNumber);
 				request.setAttribute("sequenceLevel", sequenceLevel);		//4개의값 히든
 				
-				mav.setViewName("board/write");
+				mav.setViewName("board/write"); //이렇게 해도됨 setAtri뷰트로 넘겨줄때
 			//	return "/WEB-INF/views/board/write.jsp"; 
 	}
 
@@ -120,7 +121,122 @@ public class BoardServiceImp implements BoardService {
 		}
 
 	}
+
+	@Override
+	public void boardList(ModelAndView mav) {
 		
+		Map<String,Object>map = mav.getModel();
+		HttpServletRequest request =(HttpServletRequest) map.get("request");	//Map방식으로 변환
+		
+		String pageNumber = request.getParameter("pageNumber");
+		if (pageNumber == null)
+			pageNumber = "1";
+
+		int currentPage = Integer.parseInt(pageNumber); // 시작 - 끝
+		LogAspect.logger.info(LogAspect.logmsg+currentPage);
+		
+		//int count = BoardDao.getInstance().getCount();
+		int count = boardDao.boardCount();				//Dao Interface로 이동
+		LogAspect.logger.info(LogAspect.logmsg+count);
+		
+
+		int boardSize = 10;
+		int startRow = (currentPage - 1) * boardSize + 1;
+		int endRow = currentPage * boardSize;
+
+		List<BoardDto> boardList=null;
+		
+		
+		if (count > 0) {
+			
+			//boardList=BoardDao.getInstance().getBoardList(startRow,endRow);
+			boardList=boardDao.boardList(startRow,endRow);
+			LogAspect.logger.info(LogAspect.logmsg+boardList.size());
+		}
+		
+		mav.addObject("boardSize", boardSize);
+		mav.addObject("currentPage", currentPage);
+		mav.addObject("count", count);
+		mav.addObject("boardList", boardList);
+		
+		mav.setViewName("board/list");
+	}
+
+	@Override
+	public void boardRead(ModelAndView mav) {
+		// TODO Auto-generated method stub
+		Map<String,Object>map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		int boardNumber=Integer.parseInt(request.getParameter("boardNumber"));
+		int pageNumber=Integer.parseInt(request.getParameter("pageNumber"));
+		LogAspect.logger.info(LogAspect.logmsg+boardNumber+","+pageNumber);
+		
+		BoardDto boardDto = boardDao.boardRead(boardNumber);
+		LogAspect.logger.info(LogAspect.logmsg+boardDto.toString());
+		
+		mav.addObject("boardDto",boardDto);
+		mav.addObject("pageNumber",pageNumber);
+		
+		mav.setViewName("board/read");
+	}
+
+	@Override
+	public void boardDeleteOk(ModelAndView mav) {
+		// TODO Auto-generated method stub
+		Map<String,Object>map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		int boardNumber=Integer.parseInt(request.getParameter("boardNumber"));
+		LogAspect.logger.info(LogAspect.logmsg+boardNumber);
+			
+		int check = boardDao.boardDelete(boardNumber);
+		
+		mav.addObject("check",check);
+		
+		mav.setViewName("board/delete");
+	}
+
+	@Override
+	public void boardUpdate(ModelAndView mav) {
+		// TODO Auto-generated method stub
+		Map<String,Object>map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		int boardNumber=Integer.parseInt(request.getParameter("boardNumber"));
+		int pageNumber=Integer.parseInt(request.getParameter("pageNumber"));
+		LogAspect.logger.info(LogAspect.logmsg+boardNumber+","+pageNumber);
+		
+		BoardDto boardDto = boardDao.boardUpRead(boardNumber);
+		LogAspect.logger.info(LogAspect.logmsg+boardDto.toString());
+		
+		mav.addObject("boardDto",boardDto);
+		mav.addObject("pageNumber",pageNumber);
+		
+		mav.setViewName("board/update");
+		
+		
+	}
+
+	@Override
+	public void boardUpdateOk(ModelAndView mav) {
+		// TODO Auto-generated method stub
+		Map<String,Object>map = mav.getModelMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		BoardDto boardDto = (BoardDto) map.get("boardDto");
+		
+		// int pageNumber=Integer.parseInt(request.getParameter("pageNumber")); 
+		LogAspect.logger.info(LogAspect.logmsg+boardDto.toString());
+		int check = boardDao.boardUpdateOk(boardDto);
+		LogAspect.logger.info(LogAspect.logmsg+check);
+		
+		
+		mav.addObject("check",check);
+		mav.setViewName("board/updateOk");
+	}
+		
+	
+	
 }
 
 

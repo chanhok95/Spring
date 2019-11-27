@@ -2,51 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
-	<!-- 이렇게 변하는거 안변하는거 DB설정 등등 다 나눠야함(xml별로) 이렇게하는이유는 이해를돕기위해 한곳에다 적어놓은것 다음번에 다 나눌거  -->
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+	
+	<!-- 이렇게 변하는거 안변하는거 DB설정 등등 다 나눠야함(xml별로) 이렇게하는이유는 이해를돕기위해 한곳에다 적어놓은것 다음번에 다 나눌거
+			beans.xml이 추가될때마다 web.xml에 추가시켜줘야됨
+	  -->
 
-	<!-- AOP -->
-	<bean id="logAspect" class="com.java.aop.LogAspect"></bean>
-	<aop:config>
-		<aop:aspect ref="logAspect">
-			<aop:pointcut expression="within(com.java..*)" id="pM"/>
-			<aop:around method="advice" pointcut-ref="pM"/>
-		</aop:aspect>
-	</aop:config>
-	
-		<!-- Forward의 view 이동 / MVC -->
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-	<property name="prefix" value="/WEB-INF/views/"></property>
-		<property name="suffix" value=".jsp"></property>
-	
-	</bean>
-	
-	<!-- DB POOl-->
-	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
-		<property name="username" value="mvc"></property>		
-		<property name="password" value="1234"></property>
-		<property name="maxTotal" value="30"></property>
-		<property name="maxIdle" value="20"></property>
-		<property name="maxWaitMillis" value="2000"></property>
-	</bean>
-	
-	<!-- MyBaties -->
-	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>	
-		<property name="mapperLocations">
-			<list>
-				<value>classpath:com/java/board/mapper/BoardMapper.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg ref="sqlSessionFactoryBean"></constructor-arg>
-	</bean>
-	
+
+	<!-- BoardHandlerMapping -->
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
@@ -56,35 +22,31 @@
 		</property>
 	
 	</bean>
-		<!-- Board Controller(Mapping) -->
-	<bean id="pMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
-	<property name="mappings">
-		<props>
-			<prop key="/board/write.do">boardWrite</prop>
-			<prop key="/board/list.do">boardList</prop>
-			<prop key="/board/writeOk.do">writeOk</prop>
-			<prop key="/member/register.do">Register</prop>
-		</props>
-	</property>
+
+
+		<!-- application Forward의 view 이동 / MVC -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+
 	</bean>
 
-	<!-- Controller -->
-	<bean id="boardController" class="com.java.board.controller.BoardController">
-		<property name="methodNameResolver" ref="pMethodNameResolver"/>
-		<property name="boardService" ref="boardService" />
+
+	<!-- application AOP -->
+	<bean id="logAspect" class="com.java.aop.LogAspect"></bean>
+	<aop:config>
+		<aop:aspect ref="logAspect">
+			<aop:pointcut expression="within(com.java..*)" id="pM"/>
+			<aop:around method="advice" pointcut-ref="pM"/>
+		</aop:aspect>
+	</aop:config>
 	
-	</bean>
+
 	
-	<!-- Service -->
-	<bean id="boardService" class="com.java.board.service.BoardServiceImp">
-		<constructor-arg ref="boardDao"></constructor-arg>
+
 	
-	</bean>
 	
-	<!-- BoardDao -->
-	<bean id="boardDao" class="com.java.board.dao.BoardDaoImp">
-		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
-	</bean>
-	
+
+
 
 </beans>

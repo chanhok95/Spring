@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+<!-- GuestHandler -->
+
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/guest/*.do">guestController</prop>
+			</props>
+			
+		</property>
+	
+	</bean>
+
+
+
+<!-- View이동 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	
+	</bean>
+	
+		<!-- application AOP -->
+	<bean id="logAspect" class="com.java.aop.LogAspect"></bean>
+	<aop:config>
+		<aop:aspect ref="logAspect">
+			<aop:pointcut expression="within(com.java..*)" id="pM"/>
+			<aop:around method="advice" pointcut-ref="pM"/>
+		</aop:aspect>
+	</aop:config>
+	
+	
+
+
+</beans>

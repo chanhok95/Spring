@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+
+	<!-- Controller -->
+	<bean id="guestController" class="com.java.guest.controller.GuestController">
+		<property name="methodNameResolver" ref="pMethodNameResolver"></property>
+		<property name="guestService" ref="guestService"></property>
+	</bean>
+	
+	<!-- Service -->
+	<bean id="guestService" class="com.java.guest.service.GuestServiceImp">
+		<constructor-arg ref="guestDao"></constructor-arg>
+	
+	</bean>
+
+	<!-- GuestDao -->
+	<bean id="guestDao" class="com.java.guest.dao.GuestDaoImp">
+		<constructor-arg ref="sqlSessionTemplate"></constructor-arg>
+	
+	</bean>
+
+
+	<!-- Guest Controller -->
+<bean id="pMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+	<property name="mappings">
+		<props>
+			<prop key="/guest/write.do">guestWrite</prop>
+			<prop key="/guest/wr.do">Write</prop>
+			
+		</props>
+	</property>
+	</bean>
+
+
+</beans>

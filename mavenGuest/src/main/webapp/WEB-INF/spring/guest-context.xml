@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Guest Controller -->
+	<bean id="propertiesMethodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/guest/write.do">guestWrite</prop>
+				<prop key="/guest/writeOk.do">guestWriteOk</prop>
+				<prop key="/guest/update.do">guestUpdate</prop>
+				<prop key="/guest/updateOk.do">guestUpdateOk</prop>
+				<prop key="/guest/delete.do">guestDelete</prop>
+							
+			</props>
+		</property>
+	</bean>
+
+		<!-- Guest Controller/ GuestDao / GuestService -->
+	<bean id="guestController" class="com.java.guest.controller.GuestController">
+		<property name="methodNameResolver" ref="propertiesMethodNameResolver"></property>
+		<constructor-arg ref="guestService"></constructor-arg>
+	</bean>
+	
+		<!-- Service -->
+	<bean id="guestService" class="com.java.guest.service.GuestServiceImp">
+		<property name="guestDao" ref="guestDao"></property>
+	</bean>
+		<!-- GuestDao -->
+	<bean id="guestDao" class="com.java.guest.dao.GuestDaoImp">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
+</beans>

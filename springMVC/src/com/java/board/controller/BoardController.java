@@ -16,11 +16,12 @@ import com.java.board.service.BoardService;
  * 작성자:길찬호
  * 날짜:2019. 11. 25.
  * 설명			각각의 구역으로 나뉘어서 제공
- * 	MVC:FrontCotroller --설정(~.properties)    -DispatcherServlet
+ * 						 MVC:FrontCotroller -    -DispatcherServlet
+ * 						 설정(~.properties) -bean.xml
  * 						 Map				  - SimpleUrlHandlerMapping
  * 												:웹 요청시 URL과 컨트롤러의 맵핑을 일괄정의
  * 						 요청  Command(주소 - CLASS) - MultiActionController(주소/함수)
- * 						 Command-view Page
+ * 						 Command-return view Page - InternalResourceView
  * 					     RequestDispatcher forward 사용해서 result view  - InternalResourceViewResolver
  */
 public class BoardController extends MultiActionController{
@@ -43,19 +44,19 @@ public class BoardController extends MultiActionController{
 	public ModelAndView Example(HttpServletRequest request,HttpServletResponse response) {			//두가지방법 중 하나 밑에거 걸리니까 Example로 만들어서 안쓰게만둠
 		
 //		boardService.boardWrite(request,response);
-	
+		
 		View view = new InternalResourceView("/WEB-INF/views/board/write.jsp");	//전에는 String으로 전달이 됬지만 여기서는 이과정들로
-	
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject(request);
 		mav.setView(view);
-	
+		
 		return mav;
 		
 	}
 	
 	
-public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse response) {
 	
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("request",request);
@@ -85,12 +86,55 @@ public ModelAndView boardWrite(HttpServletRequest request,HttpServletResponse re
 	}
 	
 	
-	public void boardList(HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView boardList(HttpServletRequest request,HttpServletResponse response) {
 		
-		System.out.println("L");
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request",request);
 		
+		boardService.boardList(mav);
 		
+		return mav;
 	}
 	
+	public ModelAndView boardRead(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request",request);
+		
+		boardService.boardRead(mav);
+		
+		return mav;
+	}
+	
+	public ModelAndView boardDelete(HttpServletRequest request,HttpServletResponse response) {
+		int boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("boardNumber",boardNumber);
+		mav.addObject("request",request);
+		
+		
+		boardService.boardDeleteOk(mav);
+		return mav;
+	}
+	
+	public ModelAndView boardUpdate(HttpServletRequest request,HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("request",request);
+		boardService.boardUpdate(mav);
+		
+		return mav;
+	}
+	public ModelAndView boardUpdateOk(HttpServletRequest request,HttpServletResponse response,BoardDto boardDto) {
+		ModelAndView mav = new ModelAndView();
+	//	int pageNumber = Integer.parseInt(request.getParameter("pageNumber")); DTO에없는애들은 request로 받으면됨
+		
+		mav.addObject("request",request);
+		mav.addObject("boardDto",boardDto);
+	//	mav.addObject("pageNumber",pageNumber);
+		boardService.boardUpdateOk(mav);
+		
+		return mav;
+	}
 	
 }

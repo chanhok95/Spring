@@ -16,14 +16,30 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/springController-servlet.xml</param-value>
+			<param-value>/WEB-INF/springController-servlet.xml
+						/WEB-INF/mybaties.xml
+						/WEB-INF/board.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>  
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>springController</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 위의 설정 Xml두개이상일때 반드시 Listner -->
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+						/WEB-INF/springController-servlet.xml
+						/WEB-INF/mybaties.xml
+						/WEB-INF/board.xml
+		</param-value>
+	</context-param>
 
   <!-- CharceterEncoding(CharceterFilter) -->
 	<filter>

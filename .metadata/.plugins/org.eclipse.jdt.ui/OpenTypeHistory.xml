@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-<typeInfo handle="=springMVC/src&lt;com.java.board.service{BoardService.java[BoardService" modifiers="513" timestamp="1574660300000"/>
+<typeInfo handle="=springMVC/src&lt;com.java.board.service{BoardService.java[BoardService" modifiers="513" timestamp="1574743312000"/>
+<typeInfo handle="=TEST/src&lt;com.java.guest.service{GuestService.java[GuestService" modifiers="513" timestamp="1574752072000"/>
+<typeInfo handle="=TEST/src&lt;com.java.guest.dao{GuestDao.java[GuestDao" modifiers="513" timestamp="1574752892000"/>
 </typeInfoHistroy>

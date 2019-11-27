@@ -11,6 +11,7 @@
 <body>
 	<a href="${root}/member/register.do">회원가입</a>
 	<a href="${root}/member/login.do">로그인</a>
+	<br/><br/>
 	
 	
 	<a href="${root}/board/write.do">글쓰기</a>
